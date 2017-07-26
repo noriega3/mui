@@ -51,9 +51,8 @@ function inputFactory(isTextArea) {
     template += '<input ' + 
       'placeholder={{hint}} ' +
       'type={{type}} ' +
-      'ng-change="onChange()" ' +
+      'ng-change=onChange() ' +
       'ng-disabled="ngDisabled" ' +
-      'ng-focus="onFocus()" ' +
       'ng-model="ngModel" ' +
       '>';
   } else {
@@ -62,9 +61,8 @@ function inputFactory(isTextArea) {
     template += '<textarea ' +
       'placeholder={{hint}} ' +
       'rows={{rows}} ' +
-      'ng-change="onChange()" ' +
+      'ng-change=onChange() ' +
       'ng-disabled="ngDisabled" ' +
-      'ng-focus="onFocus()" ' +
       'ng-model="ngModel" ' +
       '></textarea>';
   }
@@ -144,15 +142,15 @@ function inputFactory(isTextArea) {
           inputEl.removeClass(pristineClass).addClass(dirtyClass);
         });
 
+        // handle is-empty|is-not-empty classes
+        inputEl.on('input change', function(ev) {
+          handleEmptyClasses(inputEl, inputEl.val());
+        });
+
         // handle changes
         scope.onChange = function() {
-          var val = scope.ngModel;
-
-          // trigger ng-change
-          if (ngModelCtrl) ngModelCtrl.$setViewValue(val);
-          
-          // set is-empty|is-no-empty
-          handleEmptyClasses(inputEl, val);
+          // trigger ng-change on parent
+          if (ngModelCtrl) ngModelCtrl.$setViewValue(scope.ngModel);
         }
       }
     };
