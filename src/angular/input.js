@@ -38,6 +38,7 @@ function inputFactory(isTextArea) {
     floatLabel: '@',
     hint: '@',
     label: '@',
+    name: '@',
     ngDisabled: '=',
     ngModel: '='
   };
@@ -49,6 +50,7 @@ function inputFactory(isTextArea) {
     scopeArgs.type = '@';
 
     template += '<input ' + 
+      'name={{name}} ' +
       'placeholder={{hint}} ' +
       'type={{type}} ' +
       'ng-change=onChange() ' +
@@ -59,6 +61,7 @@ function inputFactory(isTextArea) {
     scopeArgs.rows = '@';
 
     template += '<textarea ' +
+      'name={{name}} ' +
       'placeholder={{hint}} ' +
       'rows={{rows}} ' +
       'ng-change=onChange() ' +
