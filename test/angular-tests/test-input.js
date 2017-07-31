@@ -8,13 +8,15 @@ import assert from 'assert';
 let helpers = require('./angular-helper'),
     ngModule = helpers.module,
     inject = helpers.inject,
-    jqLite = helpers.jqLite;
+    jqLite = helpers.jqLite,
+    util = helpers.util;
 
 require('../../src/angular/input.js');
 
 
 describe('angular/input', function() {
   let $compile,
+      $rootScope,
       scope;
 
 
@@ -22,8 +24,12 @@ describe('angular/input', function() {
 
 
   beforeEach(inject(function(_$compile_, _$rootScope_) {
+    // cache references
     $compile = _$compile_;
-    scope = _$rootScope_.$new();
+    $rootScope = _$rootScope_;
+
+    // initialize scope for convenience
+    scope = $rootScope.$new();
   }));
 
 
@@ -69,5 +75,32 @@ describe('angular/input', function() {
     // check name attribute
     assert.equal(inputEl.hasAttribute('name'), true);
     assert.equal(inputEl.getAttribute('name'), 'myvar');
+  });
+
+
+  it('handles touched/untouched classes properly', function() {
+    let s, wrapperEl, inputEl;
+
+    scope = $rootScope.$new();
+    s = '<mui-input ng-model="myModel"></mui-input>';
+    wrapperEl = $compile(s)(scope)[0];
+    inputEl = wrapperEl.children[0];
+    scope.$digest();
+
+    // check before
+    assert.equal(jqLite.hasClass(inputEl, 'mui--is-untouched'), true);
+    assert.equal(jqLite.hasClass(inputEl, 'mui--is-touched'), false);
+
+    // blur event
+    util.dispatchEvent(inputEl, 'blur');
+    
+    // check after
+    assert.equal(jqLite.hasClass(inputEl, 'mui--is-untouched'), false);
+    assert.equal(jqLite.hasClass(inputEl, 'mui--is-touched'), true);
+  });
+
+
+  it('handles empty/not-empty classes properly', function() {
+    
   });
 });
