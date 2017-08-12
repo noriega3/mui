@@ -96,7 +96,7 @@ describe('angular/input', function() {
   describe('empty/not-empty class handling', function() {
     let s, wrapperEl, inputEl;
 
-    it('should have initial class of empty when input empty', function() {
+    it('has class `mui--is-empty` on init when input empty', function() {
       scope = $rootScope.$new();
       s = '<mui-input ng-model="myModel"></mui-input>';
       wrapperEl = $compile(s)(scope)[0];
@@ -108,7 +108,7 @@ describe('angular/input', function() {
     });
 
 
-    it('should have initial class of not-empty when input not empty', function() {
+    it('has class `mui--is-not-empty` on init when input not empty', function() {
       scope = $rootScope.$new();
       scope.myModel = 'myvalue';
       s = '<mui-input ng-model="myModel"></mui-input>';
@@ -121,7 +121,7 @@ describe('angular/input', function() {
     });
 
 
-    it('should swap classes after `input` event', function() {
+    it('modifies classes after after `input` event', function() {
       scope = $rootScope.$new();
       s = '<mui-input ng-model="myModel"></mui-input>';
       wrapperEl = $compile(s)(scope)[0];
@@ -150,7 +150,7 @@ describe('angular/input', function() {
     });
 
 
-    it('should swap classes after `change` event', function() {
+    it('modifies classes after `change` event', function() {
       scope = $rootScope.$new();
       s = '<mui-input ng-model="myModel"></mui-input>';
       wrapperEl = $compile(s)(scope)[0];
@@ -183,7 +183,8 @@ describe('angular/input', function() {
   describe('touched/untouched class handling', function() {
     let s, wrapperEl, inputEl;
 
-    it('should have initial class of untouched with empty', function() {
+    it('has class `mui--is-untouched` on init', function() {
+      // initialize as empty
       scope = $rootScope.$new();
       s = '<mui-input ng-model="myModel"></mui-input>';
       wrapperEl = $compile(s)(scope)[0];
@@ -193,10 +194,8 @@ describe('angular/input', function() {
       // check classes
       assert.equal(jqLite.hasClass(inputEl, 'mui--is-untouched'), true);
       assert.equal(jqLite.hasClass(inputEl, 'mui--is-touched'), false);
-    });
 
-
-    it('should have initial class of untouched when not empty', function() {
+      // initialize as not empty
       scope = $rootScope.$new();
       scope.myModel = 'myvalue';
       s = '<mui-input ng-model="myModel"></mui-input>';
@@ -209,8 +208,8 @@ describe('angular/input', function() {
       assert.equal(jqLite.hasClass(inputEl, 'mui--is-touched'), false);
     });
 
-    
-    it('should swap classes on blur event', function() {
+
+    it('sets class to `mui--is-touched` on `blur` event', function() {
       scope = $rootScope.$new();
       s = '<mui-input ng-model="myModel"></mui-input>';
       wrapperEl = $compile(s)(scope)[0];
@@ -230,9 +229,9 @@ describe('angular/input', function() {
   describe('pristine/dirty class handling', function() {
     let s, wrapperEl, inputEl;
 
-    it('should have pristine class when initial content is empty', function() {
+    it('has class `mui--is-pristine` on init', function() {
+      // empty
       scope = $rootScope.$new();
-      scope.myModel = '';
       s = '<mui-input ng-model="myModel"></mui-input>';
       wrapperEl = $compile(s)(scope)[0];
       inputEl = wrapperEl.children[0];
@@ -241,10 +240,8 @@ describe('angular/input', function() {
       // check initial classes
       assert.equal(jqLite.hasClass(inputEl, 'mui--is-pristine'), true);
       assert.equal(jqLite.hasClass(inputEl, 'mui--is-dirty'), false);
-    });
 
-
-    it('should have pristine class when initial content is present', function() {
+      // not empty
       scope = $rootScope.$new();
       scope.myModel = 'myvalue';
       s = '<mui-input ng-model="myModel"></mui-input>';
@@ -254,21 +251,16 @@ describe('angular/input', function() {
       
       // check initial classes
       assert.equal(jqLite.hasClass(inputEl, 'mui--is-pristine'), true);
-      assert.equal(jqLite.hasClass(inputEl, 'mui--is-dirty'), false);
+      assert.equal(jqLite.hasClass(inputEl, 'mui--is-dirty'), false);      
     });
 
 
-    it('should swap classes on `change` event', function() {
+    it('sets class to `mui--is-dirty` on `change` event', function() {
       scope = $rootScope.$new();
-      scope.myModel = 'myvalue';
       s = '<mui-input ng-model="myModel"></mui-input>';
       wrapperEl = $compile(s)(scope)[0];
       inputEl = wrapperEl.children[0];
       scope.$digest();
-      
-      // check initial classes
-      assert.equal(jqLite.hasClass(inputEl, 'mui--is-pristine'), true);
-      assert.equal(jqLite.hasClass(inputEl, 'mui--is-dirty'), false);
       
       // trigger change event
       util.dispatchEvent(inputEl, 'change');
@@ -279,17 +271,12 @@ describe('angular/input', function() {
     });
 
 
-    it('should swap classes on `input` event', function() {
+    it('sets class to `mui--is-dirty` on `input` event', function() {
       scope = $rootScope.$new();
-      scope.myModel = 'myvalue';
       s = '<mui-input ng-model="myModel"></mui-input>';
       wrapperEl = $compile(s)(scope)[0];
       inputEl = wrapperEl.children[0];
       scope.$digest();
-      
-      // check initial classes
-      assert.equal(jqLite.hasClass(inputEl, 'mui--is-pristine'), true);
-      assert.equal(jqLite.hasClass(inputEl, 'mui--is-dirty'), false);
       
       // trigger change event
       util.dispatchEvent(inputEl, 'input');
