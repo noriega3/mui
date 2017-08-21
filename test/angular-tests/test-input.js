@@ -93,6 +93,18 @@ describe('angular/input', function() {
   });
 
 
+  it('attaches ng-maxlength and ng-maxlength to inner element', function() {
+    let s = '<mui-input ng-model="myModel" ' +
+      'ng-maxlength="8" ng-minlength="2"></mui-input>';
+    let inputEl = $compile(s)(scope)[0].children[0];
+
+    scope.$digest();
+
+    // check that attributes are added to inner element
+    assert.equal(inputEl.getAttribute('ng-maxlength'), "8");
+    assert.equal(inputEl.getAttribute('ng-minlength'), "2");
+  });
+
   describe('empty/not-empty class handling', function() {
     let s, wrapperEl, inputEl;
 

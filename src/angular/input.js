@@ -16,7 +16,8 @@ const moduleName = 'mui.input';
 function inputFactory(isTextArea) {
   var scopeArgs,
       template,
-      ngClassStr;
+      ngClassStr,
+      attrs;
 
   // defaults
   scopeArgs = {
@@ -25,8 +26,12 @@ function inputFactory(isTextArea) {
     label: '@',
     name: '@',
     ngDisabled: '=',
+    ngMaxlength: '@',
+    ngMinlength: '@',
     ngModel: '='
   };
+
+  template = '<div class="mui-textfield">';
 
   ngClassStr = '{' + [
     "'mui--is-touched': inputCtrl.$touched",  // hasn't lost focus yet
@@ -35,35 +40,28 @@ function inputFactory(isTextArea) {
     "'mui--is-dirty': inputCtrl.$dirty",
     "'mui--is-empty': inputCtrl.$isEmpty(inputCtrl.$viewValue)",
     "'mui--is-not-empty': !inputCtrl.$isEmpty(inputCtrl.$viewValue)",
+    "'mui--is-invalid': inputCtrl.$invalid"
   ].join(',') + '}';
 
-  template = '<div class="mui-textfield">';
+  attrs = [
+    'name={{name}}',
+    'placeholder={{hint}}',
+    'ng-class="' + ngClassStr + '"',
+    'ng-disabled="ngDisabled"',
+    'ng-maxlength={{ngMaxlength}}',
+    'ng-minlength={{ngMinlength}}',
+    'ng-model="ngModel"',
+  ];
 
   // element-specific
   if (!isTextArea) {
     scopeArgs.type = '@';
-
-    template += '<input ' + 
-      'name={{name}} ' +
-      'placeholder={{hint}} ' +
-      'type={{type}} ' +
-      'ng-change=onChange() ' +
-      'ng-class="' + ngClassStr + '" ' +
-      'ng-disabled="ngDisabled" ' +
-      'ng-model="ngModel" ' +
-      '>';
+    attrs.push('type={{type}}');
+    template += '<input ' + attrs.join(' ') + '>';
   } else {
     scopeArgs.rows = '@';
-
-    template += '<textarea ' +
-      'name={{name}} ' +
-      'placeholder={{hint}} ' +
-      'rows={{rows}} ' +
-      'ng-change=onChange() ' +
-      'ng-class=" ' + ngClassStr + '" ' +
-      'ng-disabled="ngDisabled" ' +
-      'ng-model="ngModel" ' +
-      '></textarea>';
+    attrs.push('rows={{rows}}');
+    template += '<textarea ' + attrs.join(' ') + '></textarea>';
   }
 
   // update template
@@ -94,6 +92,8 @@ function inputFactory(isTextArea) {
         // remove attributes from wrapper
         element.removeAttr('ng-change');
         element.removeAttr('ng-model');
+        element.removeAttr('ng-minlength');
+        element.removeAttr('ng-maxlength');
 
         // scope defaults
         if (!isTextArea) scope.type = scope.type || 'text';
