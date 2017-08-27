@@ -248,8 +248,8 @@ describe('react/input', function() {
     let findComponent = ReactUtils.findRenderedDOMComponentWithTag;
     let inputEl = findComponent(instance, 'input');
 
-    assert.equal(inputEl, instance.inputElRef);
-    assert.equal(instance.inputElRef.value, 'mydefaultvalue');
+    assert.equal(inputEl, instance.controlEl);
+    assert.equal(instance.controlEl.value, 'mydefaultvalue');
   });
 
 
