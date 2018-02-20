@@ -50,6 +50,7 @@ class Select extends React.Component {
   static defaultProps = {
     className: '',
     name: '',
+    disabled: false,
     readOnly: false,
     useDefault: (typeof document !== 'undefined' && 'ontouchstart' in document.documentElement) ? true : false,
     onChange: null,
@@ -182,7 +183,7 @@ class Select extends React.Component {
       tabIndexInner = '-1';
     }
 
-    const { children, className, style, label, defaultValue, readOnly,
+    const { children, className, style, label, defaultValue, disabled, readOnly,
       useDefault, name, ...reactProps } = this.props;
 
     return (
@@ -201,6 +202,7 @@ class Select extends React.Component {
           tabIndex={tabIndexInner}
           value={this.state.value}
           defaultValue={defaultValue}
+          disabled={this.props.disabled}
           readOnly={this.props.readOnly}
           onChange={this.onInnerChangeCB}
           onMouseDown={this.onInnerMouseDownCB}
